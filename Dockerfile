@@ -6,7 +6,8 @@ RUN apk add --no-cache \
     build-base \
     openssl-dev \
     zlib-dev \
-    linux-headers
+    linux-headers \
+    curl
 
 # Clone MTProxy
 RUN git clone https://github.com/TelegramMessenger/MTProxy.git /mtproxy
@@ -22,6 +23,7 @@ RUN mkdir -p /data
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-EXPOSE 443
+# Railway sử dụng PORT environment variable
+EXPOSE $PORT
 
 CMD ["/start.sh"]

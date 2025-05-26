@@ -1,12 +1,13 @@
 #!/bin/sh
 
+# Railway provides PORT environment variable
+PORT=${PORT:-443}
+
 # Generate secret if not provided
 if [ -z "$SECRET" ]; then
     SECRET=$(head -c 16 /dev/urandom | xxd -ps)
+    echo "Generated SECRET: $SECRET"
 fi
-
-# Set default port
-PORT=${PORT:-443}
 
 # Get proxy secret from Telegram
 curl -s https://core.telegram.org/getProxySecret -o /data/proxy-secret
@@ -14,7 +15,8 @@ curl -s https://core.telegram.org/getProxySecret -o /data/proxy-secret
 # Get proxy config
 curl -s https://core.telegram.org/getProxyConfig -o /data/proxy-multi.conf
 
-echo "Starting MTProxy..."
+echo "======================================="
+echo "MTProxy Starting..."
 echo "Port: $PORT"
 echo "Secret: $SECRET"
 echo "======================================="
