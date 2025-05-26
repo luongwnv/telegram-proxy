@@ -1,0 +1,14 @@
+services:
+  - name: mtproxy
+    type: web
+    build:
+      type: docker
+      dockerfile: Dockerfile
+    ports:
+      - port: 443
+        protocol: http
+    env:
+      - key: SECRET
+        value: ""  # Để trống sẽ tự động generate
+      - key: PORT
+        value: "443"
