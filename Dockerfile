@@ -1,13 +1,17 @@
-FROM alpine:latest
+FROM ubuntu:20.04
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
-    build-base \
-    openssl-dev \
-    zlib-dev \
-    linux-headers \
-    curl
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    curl \
+    xxd \
+    && rm -rf /var/lib/apt/lists/*
 
 # Clone MTProxy
 RUN git clone https://github.com/TelegramMessenger/MTProxy.git /mtproxy
