@@ -1,33 +1,10 @@
-FROM ubuntu:20.04
+FROM caomingjun/warp
 
-# Prevent interactive prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
+# Cài Python3 để làm HTTP server đơn giản
+RUN apt update && apt install -y python3
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    build-essential \
-    libssl-dev \
-    zlib1g-dev \
-    curl \
-    xxd \
-    && rm -rf /var/lib/apt/lists/*
-
-# Clone MTProxy
-RUN git clone https://github.com/TelegramMessenger/MTProxy.git /mtproxy
-
-# Build MTProxy
-WORKDIR /mtproxy
-RUN make
-
-# Create working directory
-RUN mkdir -p /data
-
-# Copy configuration script
+# Tạo file script khởi động
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
-
-# Railway sử dụng PORT environment variable
-EXPOSE $PORT
 
 CMD ["/start.sh"]
